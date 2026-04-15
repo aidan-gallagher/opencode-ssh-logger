@@ -12,7 +12,7 @@ Add the plugin to your `opencode.json`:
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-ssh-logger"]
+  "plugin": ["opencode-ssh-logger@latest"]
 }
 ```
 
@@ -20,10 +20,10 @@ No configuration required.
 
 ## Log files
 
-Logs are written to `$XDG_DATA_HOME/opencode/storage/opencode-ssh-logger/` (defaults to `~/.local/share/opencode/storage/opencode-ssh-logger/`):
+Logs are written to `$XDG_DATA_HOME/opencode/storage/plugins/opencode-ssh-logger/` (defaults to `~/.local/share/opencode/storage/plugins/opencode-ssh-logger/`):
 
 ```
-~/.local/share/opencode/storage/opencode-ssh-logger/
+~/.local/share/opencode/storage/plugins/opencode-ssh-logger/
 ├── ssh-all.log                  # Global log (all sessions)
 ├── ssh-ses_ABC123DEF456.log     # Per-session logs
 ├── ssh-ses_XYZ789GHI012.log

@@ -1,13 +1,14 @@
 import type { Plugin } from "@opencode-ai/plugin"
 import { appendFileSync, mkdirSync, existsSync } from "node:fs"
 import { join } from "node:path"
-import { xdgData } from "xdg-basedir"
+import { homedir } from "node:os"
 
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
 
-const LOG_DIR = join(xdgData, "opencode", "storage", "opencode-ssh-logger")
+const xdgData = process.env.XDG_DATA_HOME || join(homedir(), ".local", "share")
+const LOG_DIR = join(xdgData, "opencode", "storage", "plugins", "opencode-ssh-logger")
 const GLOBAL_LOG = join(LOG_DIR, "ssh-all.log")
 const MAX_OUTPUT_LINES = 100
 

@@ -1,6 +1,6 @@
 {
   "name": "opencode-ssh-logger",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "OpenCode plugin that logs SSH commands and output to text files",
   "main": "src/index.ts",
   "license": "MIT",
@@ -11,9 +11,6 @@
     "logging",
     "audit"
   ],
-  "dependencies": {
-    "xdg-basedir": "^5.1.0"
-  },
   "peerDependencies": {
     "@opencode-ai/plugin": "*"
   }
