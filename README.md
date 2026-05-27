@@ -2,7 +2,7 @@
 
 An [OpenCode](https://opencode.ai) plugin that logs all SSH commands and their output to human-readable text files.
 
-Every time the AI agent runs an SSH command through OpenCode's bash tool, the command and its output are appended to a log file. Logs are written per-session and to a global log.
+Every time the AI agent runs an SSH command through OpenCode's bash tool, the command and its output are appended to a log file. Logs are written globally, per-host, and per-session.
 
 ## Setup
 
@@ -28,13 +28,18 @@ Logs are written to `$XDG_DATA_HOME/opencode/storage/plugins/opencode-ssh-logger
 
 ```
 ~/.local/share/opencode/storage/plugins/opencode-ssh-logger/
-├── ssh-all.log                  # Global log (all sessions)
-├── ssh-ses_ABC123DEF456.log     # Per-session logs
-├── ssh-ses_XYZ789GHI012.log
+├── ssh-all.log                  # Global log, all sessions and hosts
+├── hosts/                       # Per-host logs
+│   ├── example.com.log
+│   └── 10.0.0.5.log
+└── sessions/                    # Per-session logs
+    ├── ses_ABC123DEF456.log
+    └── ses_XYZ789GHI012.log
 ```
 
 - **`ssh-all.log`** — Every SSH command across all OpenCode sessions, in chronological order.
-- **`ssh-<sessionID>.log`** — Commands from a single OpenCode session, correlating to the session ID in the TUI.
+- **`hosts/<host>.log`** — Commands grouped by SSH host, across all sessions. File names are URL-encoded when needed.
+- **`sessions/<sessionID>.log`** — Commands from a single OpenCode session, correlating to the session ID in the TUI.
 
 ## Deploy
 

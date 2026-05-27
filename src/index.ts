@@ -10,6 +10,8 @@ import { homedir } from "node:os"
 const xdgData = process.env.XDG_DATA_HOME || join(homedir(), ".local", "share")
 const LOG_DIR = join(xdgData, "opencode", "storage", "plugins", "opencode-ssh-logger")
 const GLOBAL_LOG = join(LOG_DIR, "ssh-all.log")
+const HOST_LOG_DIR = join(LOG_DIR, "hosts")
+const SESSION_LOG_DIR = join(LOG_DIR, "sessions")
 const MAX_OUTPUT_LINES = 100
 
 // SSH connection failure patterns — skip logging these
@@ -198,10 +200,16 @@ let dirEnsured = false
 
 function ensureLogDir(): void {
   if (dirEnsured) return
-  if (!existsSync(LOG_DIR)) {
-    mkdirSync(LOG_DIR, { recursive: true })
+  for (const dir of [LOG_DIR, HOST_LOG_DIR, SESSION_LOG_DIR]) {
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true })
+    }
   }
   dirEnsured = true
+}
+
+function logFileName(value: string): string {
+  return encodeURIComponent(value) || "unknown"
 }
 
 function formatTimestamp(): string {
@@ -270,7 +278,9 @@ export const SSHLogger: Plugin = async () => {
 Do not inspect files or run commands. Reply with this information:
 - Log directory: ${LOG_DIR}
 - Global log: ${GLOBAL_LOG}
-- Per-session logs: ${join(LOG_DIR, "ssh-<sessionID>.log")}
+- Per-host logs: ${join(HOST_LOG_DIR, "<host>.log")}
+- Per-session logs: ${join(SESSION_LOG_DIR, "<sessionID>.log")}
+- Host and session file names are URL-encoded when needed.
 - Log format: each entry starts with "# YYYY-MM-DD HH:MM:SS", followed by "user@host: $ <remote command>", then the command output. Entries are separated by a blank line.
 - Example entry:
   # 2026-05-27 14:30:00
@@ -302,9 +312,11 @@ Mention that the log directory is based on XDG_DATA_HOME, defaulting to ~/.local
         output.output ?? "",
       )
 
-      // Write to both global and per-session log
-      const sessionLog = join(LOG_DIR, `ssh-${input.sessionID}.log`)
+      // Write to global, per-host, and per-session logs
+      const hostLog = join(HOST_LOG_DIR, `${logFileName(parsed.host)}.log`)
+      const sessionLog = join(SESSION_LOG_DIR, `${logFileName(input.sessionID)}.log`)
       appendLog(GLOBAL_LOG, entry)
+      appendLog(hostLog, entry)
       appendLog(sessionLog, entry)
     },
   }

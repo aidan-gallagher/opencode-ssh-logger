@@ -1,6 +1,6 @@
 {
   "name": "opencode-ssh-logger",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
   "description": "OpenCode plugin that logs SSH commands and output to text files",
   "main": "src/index.ts",
