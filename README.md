@@ -35,3 +35,12 @@ Logs are written to `$XDG_DATA_HOME/opencode/storage/plugins/opencode-ssh-logger
 
 - **`ssh-all.log`** — Every SSH command across all OpenCode sessions, in chronological order.
 - **`ssh-<sessionID>.log`** — Commands from a single OpenCode session, correlating to the session ID in the TUI.
+
+## Deploy
+
+Release a new version to npm:
+
+```sh
+npm login
+npm publish
+```
