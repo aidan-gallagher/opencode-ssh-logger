@@ -271,6 +271,11 @@ Do not inspect files or run commands. Reply with this information:
 - Log directory: ${LOG_DIR}
 - Global log: ${GLOBAL_LOG}
 - Per-session logs: ${join(LOG_DIR, "ssh-<sessionID>.log")}
+- Log format: each entry starts with "# YYYY-MM-DD HH:MM:SS", followed by "user@host: $ <remote command>", then the command output. Entries are separated by a blank line.
+- Example entry:
+  # 2026-05-27 14:30:00
+  ubuntu@example.com: $ uname -s
+  Linux
 
 Mention that the log directory is based on XDG_DATA_HOME, defaulting to ~/.local/share when XDG_DATA_HOME is not set.`,
       }
