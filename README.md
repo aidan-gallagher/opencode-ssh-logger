@@ -18,6 +18,10 @@ Add the plugin to your `opencode.json`:
 
 No configuration required.
 
+## Command
+
+The plugin adds an `/ssh-logger` command that shows where SSH logs are written.
+
 ## Log files
 
 Logs are written to `$XDG_DATA_HOME/opencode/storage/plugins/opencode-ssh-logger/` (defaults to `~/.local/share/opencode/storage/plugins/opencode-ssh-logger/`):
@@ -31,4 +35,3 @@ Logs are written to `$XDG_DATA_HOME/opencode/storage/plugins/opencode-ssh-logger
 
 - **`ssh-all.log`** — Every SSH command across all OpenCode sessions, in chronological order.
 - **`ssh-<sessionID>.log`** — Commands from a single OpenCode session, correlating to the session ID in the TUI.
-

@@ -261,6 +261,20 @@ function isConnectionFailure(output: string): boolean {
 
 export const SSHLogger: Plugin = async () => {
   return {
+    config: async (cfg) => {
+      cfg.command ??= {}
+      cfg.command["ssh-logger"] = {
+        description: "Show SSH logger log file locations",
+        template: `Tell the user where opencode-ssh-logger writes SSH logs.
+
+Do not inspect files or run commands. Reply with this information:
+- Log directory: ${LOG_DIR}
+- Global log: ${GLOBAL_LOG}
+- Per-session logs: ${join(LOG_DIR, "ssh-<sessionID>.log")}
+
+Mention that the log directory is based on XDG_DATA_HOME, defaulting to ~/.local/share when XDG_DATA_HOME is not set.`,
+      }
+    },
     "tool.execute.after": async (input, output) => {
       // Only interested in bash tool calls
       if (input.tool !== "bash") return
